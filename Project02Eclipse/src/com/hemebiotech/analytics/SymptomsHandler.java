@@ -11,17 +11,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.hemebiotech.analytics.Interface.IAnalyticsCounter;
+import com.hemebiotech.analytics.Interface.ISymptomsHandler;
 
-public class AnalyticsCounter implements IAnalyticsCounter {
+public class SymptomsHandler implements ISymptomsHandler {
 	private String filepath;
 	public ArrayList<String> symptomsList = new ArrayList<String>();
 	public TreeMap<String, Integer> symptomsCountMap = new TreeMap<String, Integer>();
 	
-	public AnalyticsCounter (String filepath) {
+	/**
+	 * Each SymptomsHandler is assigned to one text file defined by its filepath
+	 * 
+	 * @param filepath string of the text file containing a list of symptoms
+	 */
+	public SymptomsHandler (String filepath) {
 		this.filepath = filepath;
 	}
 	
+	/**
+	 * Read the file defined in file path and save content in symptomsList
+	 * 
+	 * @return void
+	 */
 	public void GetSymptoms() {
 		if (filepath != null) {
 			try {
@@ -39,11 +49,16 @@ public class AnalyticsCounter implements IAnalyticsCounter {
 		}
 	}
 		
+	
+	/**
+	 * Sort and count the content of symptomsList and save the result in symptomsCountMap
+	 * 
+	 * @return void
+	 */
 	public void CountSymptoms() {
 		Collections.sort(symptomsList);
 		System.out.println(symptomsList);
 		for (int i = 0; i < symptomsList.size(); i++) {
-//			System.out.println(symptomsList.get(i));
 			String symptom = symptomsList.get(i);
 			Integer existingMapCount = symptomsCountMap.get(symptom);
 			if (existingMapCount != null) 
@@ -51,12 +66,18 @@ public class AnalyticsCounter implements IAnalyticsCounter {
 			else {symptomsCountMap.put(symptom, 1);}
 			System.out.println(symptomsCountMap);
 		}
-//		System.out.println(symptomsCountMap);		
 	}
+	
 
-	public void WriteSymptoms() {
+	/**
+	 * Write content of symptomsCountMap
+	 * 
+	 * @param outputFile string of the output file name
+	 * @return void
+	 */
+	public void WriteSymptoms(String outputFile) {
 		try {
-			FileWriter writer = new FileWriter ("result.out");
+			FileWriter writer = new FileWriter (outputFile);
 			
 			for (Map.Entry<String, Integer> entry : symptomsCountMap.entrySet()) {
 				writer.write(entry.getKey() + "=" + String.valueOf(entry.getValue()));
