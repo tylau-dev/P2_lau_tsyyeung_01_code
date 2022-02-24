@@ -9,5 +9,5 @@ public interface ISymptomsHandler {
 
 	void CountSymptoms();
 	
-	void WriteSymptoms (String outputLocation);
+	void WriteSymptoms (String outputFile);
 }

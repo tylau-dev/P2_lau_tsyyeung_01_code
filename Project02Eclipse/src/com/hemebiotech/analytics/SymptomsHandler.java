@@ -13,6 +13,11 @@ import java.util.TreeMap;
 
 import com.hemebiotech.analytics.Interface.ISymptomsHandler;
 
+/**
+ * Implementation of ISymptomsHandler, with the logic for reading/counting/writing
+ * the content of input file
+ */
+
 public class SymptomsHandler implements ISymptomsHandler {
 	private String filepath;
 	public ArrayList<String> symptomsList = new ArrayList<String>();
@@ -56,15 +61,12 @@ public class SymptomsHandler implements ISymptomsHandler {
 	 * @return void
 	 */
 	public void CountSymptoms() {
-		Collections.sort(symptomsList);
-		System.out.println(symptomsList);
 		for (int i = 0; i < symptomsList.size(); i++) {
 			String symptom = symptomsList.get(i);
 			Integer existingMapCount = symptomsCountMap.get(symptom);
 			if (existingMapCount != null) 
 				{symptomsCountMap.put(symptom, existingMapCount + 1);}
 			else {symptomsCountMap.put(symptom, 1);}
-			System.out.println(symptomsCountMap);
 		}
 	}
 	
@@ -78,17 +80,13 @@ public class SymptomsHandler implements ISymptomsHandler {
 	public void WriteSymptoms(String outputFile) {
 		try {
 			FileWriter writer = new FileWriter (outputFile);
-			
 			for (Map.Entry<String, Integer> entry : symptomsCountMap.entrySet()) {
-				writer.write(entry.getKey() + "=" + String.valueOf(entry.getValue()));
+				writer.write(entry.getKey() + "=" + String.valueOf(entry.getValue()) + "\n");
 			}
-		
 			writer.close();
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 }
